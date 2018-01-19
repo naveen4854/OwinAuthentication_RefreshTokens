@@ -1,11 +1,12 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using OwinAuthentication_RefreshTokens.Providers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Microsoft.AspNet.Identity;
 
 [assembly: OwinStartup(typeof(OwinAuthentication_RefreshTokens.Startup))]
 namespace OwinAuthentication_RefreshTokens
@@ -32,6 +33,22 @@ namespace OwinAuthentication_RefreshTokens
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+            // Configure google authentication
+            var options = new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "925148130964-elr3u3qrnftut09ced43tqrbdlfaeirk.apps.googleusercontent.com",
+                ClientSecret = "qiC-roy6ZF5PFz_MLGZLJyW3"
+            };
+            app.UseGoogleAuthentication(options);
+
+            //// Configure facebook authentication
+            //var fbOptions = new FacebookAuthenticationOptions()
+            //{
+
+            //};
+            //app.UseFacebookAuthentication(fbOptions);
+
+            app.SetDefaultSignInAsAuthenticationType("External");
         }
     }
 }
