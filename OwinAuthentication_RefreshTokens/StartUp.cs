@@ -7,6 +7,7 @@ using Owin;
 using OwinAuthentication_RefreshTokens.Providers;
 using System;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.Cookies;
 
 [assembly: OwinStartup(typeof(OwinAuthentication_RefreshTokens.Startup))]
 namespace OwinAuthentication_RefreshTokens
@@ -33,6 +34,14 @@ namespace OwinAuthentication_RefreshTokens
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+            var cookieOptions = new CookieAuthenticationOptions
+            {
+                LoginPath = new PathString("/Account/ExternalLogin")
+            };
+
+            app.UseCookieAuthentication(cookieOptions);
+            app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
+
             // Configure google authentication
             var options = new GoogleOAuth2AuthenticationOptions()
             {
@@ -48,7 +57,7 @@ namespace OwinAuthentication_RefreshTokens
             //};
             //app.UseFacebookAuthentication(fbOptions);
 
-            app.SetDefaultSignInAsAuthenticationType("External");
+            //app.SetDefaultSignInAsAuthenticationType("External");
         }
     }
 }

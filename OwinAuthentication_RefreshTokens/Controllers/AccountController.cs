@@ -13,7 +13,7 @@ namespace OwinAuthentication_RefreshTokens.Controllers
         [HttpGet]
         public IHttpActionResult ExternalLogin()
         {
-            return new ChallengeResult("Google", "http://localhost/auth/signin-google", this.Request);
+            return new ChallengeResult("Google", "/auth/api/home", this.Request);
         }
     }
 }
